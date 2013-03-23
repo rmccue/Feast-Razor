@@ -13,5 +13,10 @@ function razor_enqueue_styles() {
 }
 
 function razor_enqueue_scripts() {
+	global $wp_version;
+	if (version_compare($wp_version, '3.5.1', 'le')) {
+		wp_deregister_script('backbone');
+		wp_enqueue_script('backbone', get_stylesheet_directory_uri() . '/resources/backbone.js', array('underscore', 'jquery'), '1.0.0');
+	}
 	wp_enqueue_script('razor-core', get_stylesheet_directory_uri() . '/core.js', array('jquery', 'backbone'));
 }

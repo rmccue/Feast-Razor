@@ -107,7 +107,7 @@ header('Content-Type: text/html; charset=utf-8');
 				<span class="item-source">From <a href="{{ Razor.Feeds.get(data.feed_id).get('uri') }}">{{ Razor.Feeds.get(data.feed_id).get('title') }}</a></span>.
 				<span class="item-date">Posted <abbr title="{{ Razor.dateToHuman(data.timestamp) }}">{{ Razor.dateToRelative(data.timestamp) }}</abbr></span
 				<# if (data.author.name) { #>
-					><span class="item-author">by <a href="{{ data.author.uri }}">{{ data.author.name }}</a></span
+					> <span class="item-author">by <a href="{{ data.author.uri }}">{{ data.author.name }}</a></span
 				<# } #>
 			>.</p>
 		</div>

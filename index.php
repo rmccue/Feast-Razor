@@ -102,7 +102,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 	<script type="text/template" id="tmpl-item-viewer">
 		<div id="heading">
-			<h2 class="item-title"><a href="{{ data.permalink }}">{{ data.title }}</a></h2>
+			<h2 class="item-title"><a href="{{ data.original }}">{{ data.title }}</a></h2>
 			<p class="item-meta">
 				<span class="item-source">From <a href="{{ Razor.Feeds.get(data.feed_id).get('uri') }}">{{ Razor.Feeds.get(data.feed_id).get('title') }}</a></span>.
 				<span class="item-date">Posted <abbr title="{{ Razor.dateToHuman(data.timestamp) }}">{{ Razor.dateToRelative(data.timestamp) }}</abbr></span

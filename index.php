@@ -57,14 +57,8 @@ header('Content-Type: text/html; charset=utf-8');
 
 	<div id="item-view">
 		<div id="item">
-			<div id="heading">
-				<h2 class="item-title">Welcome to Razor!</h2>
-				<p class="item-meta"><span class="item-source">From <a href="#external" class="external">Example Feed</a></span>. <span class="item-date">Posted <abbr class="relative" title="Sat, 01 Jan 2009 12:00:00">Sat, 01 Jan 2009 12:00:00</abbr></p>
-
-			</div>
 			<div id="item-content">
-				<p>	Razor is a template for Lilina, built to feel and act like
-					a desktop feed reader.</p>
+				<p>Pick a feed from the left to get started!</p>
 			</div>
 		</div>
 		<div class="footer">

@@ -466,6 +466,11 @@ a:active, a:focus {
 	color: #999;
 	cursor: w-resize;
 }
+body.admin-bar #sidebar,
+body.admin-bar #item-view,
+body.admin-bar #items-list-container {
+	top: 88px;
+}
 
 /*
 Two-Column Layout
@@ -473,12 +478,34 @@ Two-Column Layout
 For smaller screens
 */
 @media screen and (max-width: 920px) {
+	#header {
+		height: 30px;
+	}
+		#header h1 {
+			font-size: 13px;
+			line-height: 26px;
+		}
+		#menu {
+			line-height: 26px;
+		}
+	#sidebar,
+	#item-view,
+	#items-list-container {
+		position: absolute;
+		top: 30px;
+		bottom: 0;
+	}
+		body.admin-bar #sidebar, body.admin-bar #item-view, body.admin-bar #items-list-container {
+			top: 58px;
+		}
 	#sidebar {
 		display: none;
-		width: 340px;
 	}
-	#sidebar, #items-list-container {
-		margin-top: 33px;
+	#items-list-container {
+		left: 0;
+	}
+	#item-view {
+		left: 341px;
 	}
 	#switcher {
 		display: block;
@@ -488,9 +515,4 @@ For smaller screens
 		border-right: 1px solid #aaa;
 		border-bottom: 1px solid #aaa;
 	}
-}
-body.admin-bar #sidebar,
-body.admin-bar #item-view,
-body.admin-bar #items-list-container {
-	top: 88px;
 }

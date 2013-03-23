@@ -466,13 +466,21 @@ a:active, a:focus {
 	color: #999;
 	cursor: w-resize;
 }
-body.admin-bar #sidebar,
-body.admin-bar #item-view,
-body.admin-bar #items-list-container {
-	top: 88px;
+body.admin-bar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
-html { margin-top: 28px !important; }
-* html body { margin-top: 28px !important; }
+	body.admin-bar #header {
+		margin-top: 28px;
+	}
+	body.admin-bar #sidebar,
+	body.admin-bar #item-view,
+	body.admin-bar #items-list-container {
+		top: 88px;
+	}
 
 /*
 Two-Column Layout

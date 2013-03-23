@@ -121,7 +121,7 @@ header('Content-Type: text/html; charset=utf-8');
 	$items = array_values(Feast_API::getItems());
 ?>
 	<script>
-		Razor.baseURL = <?php echo json_encode(site_url('/feast/api')) ?>;
+		Razor.baseURL = <?php echo json_encode(Feast_API::getURL()) ?>;
 		Razor.scriptURL = <?php echo json_encode(get_stylesheet_directory_uri()) ?>;
 
 		Razor.Feeds.reset(<?php echo json_encode($feeds) ?>);

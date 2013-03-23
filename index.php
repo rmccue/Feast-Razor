@@ -114,6 +114,10 @@ header('Content-Type: text/html; charset=utf-8');
 		</a>
 	</script>
 
+	<script type="text/template" id="tmpl-footer-item">
+		<a>{{ data.name }}</a>
+	</script>
+
 	<script type="text/template" id="tmpl-list-item">
 		<a href="{{ data.permalink }}">
 			<span class="item-title">{{ data.title }}</span>

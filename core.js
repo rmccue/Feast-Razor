@@ -362,6 +362,50 @@
 		},
 	});
 
+	var FooterItem = Backbone.View.extend({
+		tagName: "li",
+
+		template: wp.template('footer-item'),
+		data: null,
+
+		events: {
+			'click': 'click',
+		},
+
+		initialize: function (options) {
+			this.data = options;
+		},
+
+		click: function (event) {
+			if (this.data.callback)
+				this.data.callback.apply(event, arguments);
+		},
+
+		render: function () {
+			this.$el.html(this.template(this.data));
+			return this;
+		},
+	})
+
+	var Footer = Backbone.View.extend({
+		tagName: "ul",
+		className: "footer",
+
+		subviews: [],
+
+		addItem: function (item) {
+			this.subviews.push(item);
+		},
+
+		render: function () {
+			var footer = this;
+			_.each(this.subviews, function (view) {
+				footer.$el.append(view.render().el);
+			});
+			return this;
+		}
+	});
+
 	var Sidebar = Backbone.View.extend({
 		el: "#sidebar",
 		subviews: [],
@@ -379,21 +423,22 @@
 			}));
 
 			this.listenTo(Razor.Items, 'reset', this.renderSelected);
+
+			this.footer = new Footer();
 		},
 
 		render: function () {
-
+			this.$el.append(this.footer.render().el);
 		},
 
 		renderSelected: function () {
-			this.selected;
 			_.each(this.subviews, function (elem) {
 				elem.renderSelected();
 			});
 		},
 
-		select: function (attributes) {
-			if (this.selected == attributes)
+		select: function (attributes, force) {
+			if (this.selected == attributes && !force)
 				return;
 
 			this.selected = attributes;
@@ -470,12 +515,24 @@
 	});
 
 	var ItemListView = Backbone.View.extend({
-		el: "#items-list",
+		el: "#items-list-container",
 
 		initialize: function () {
 			this.listenTo(Razor.Items, 'add', this.addItem);
 			this.listenTo(Razor.Items, 'reset', this.resetItems);
 			this.listenTo(Razor.Items, 'all', this.render);
+
+			this.footer = new Footer();
+
+			this.footer.addItem(
+				new FooterItem({
+					name: 'Refresh',
+					callback: function () {
+						Razor.App.sidebar.select(Razor.App.sidebar.selected, true);
+						this.preventDefault();
+					},
+				})
+			);
 
 			this.resetItems();
 		},
@@ -485,11 +542,11 @@
 			this.listenTo(view, 'select', function () {
 				this.maybeScroll(view);
 			});
-			this.$el.append(view.render().el);
+			this.$('ol').append(view.render().el);
 		},
 
 		resetItems: function () {
-			this.$el.empty();
+			this.$('ol').empty();
 			Razor.Items.each(this.addItem, this);
 			this.stopLoading();
 		},
@@ -536,14 +593,15 @@
 
 		render: function () {
 			this.stopLoading();
+			this.$el.append(this.footer.render().el);
 		},
 
 		startLoading: function () {
-			this.$el.addClass('loading');
+			this.$('ol').addClass('loading');
 		},
 
 		stopLoading: function () {
-			this.$el.removeClass('loading');
+			this.$('ol').removeClass('loading');
 		},
 
 		maybeScroll: function (item) {
@@ -590,7 +648,10 @@
 		},
 
 		setup: function () {
+			this.sidebar.render();
 			this.sidebar.renderSelected();
+
+			this.items.render();
 		},
 
 		renderViewer: function () {

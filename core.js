@@ -127,6 +127,23 @@
 	if ($.browser.mozilla && navigator.userAgent.indexOf('Macintosh') != -1)
 		Razor.hotkeys.special["?"] = 0;
 
+	// Based on wp.media.template, but without loading the media models.
+	// See http://core.trac.wordpress.org/ticket/23263
+	Razor.template = _.memoize(function ( id ) {
+		var compiled,
+			options = {
+				evaluate:    /<#([\s\S]+?)#>/g,
+				interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+				escape:      /\{\{([^\}]+?)\}\}(?!\})/g,
+				variable:    'data'
+			};
+
+		return function ( data ) {
+			compiled = compiled || _.template( $( '#tmpl-' + id ).html(), null, options );
+			return compiled( data );
+		};
+	});
+
 	var Feed = Backbone.Model.extend({
 		defaults: function () {
 			return {
@@ -226,7 +243,7 @@
 	var SidebarRow = Backbone.View.extend({
 		tagName: "li",
 
-		template: wp.template('sidebar-item'),
+		template: Razor.template('sidebar-item'),
 
 		data: null,
 		filter: null,
@@ -365,7 +382,7 @@
 	var FooterItem = Backbone.View.extend({
 		tagName: "li",
 
-		template: wp.template('footer-item'),
+		template: Razor.template('footer-item'),
 		data: null,
 
 		events: {
@@ -480,7 +497,7 @@
 	var ItemRow = Backbone.View.extend({
 		tagName: "li",
 
-		template: wp.template('list-item'),
+		template: Razor.template('list-item'),
 
 		events: {
 			"click": "select"
@@ -616,7 +633,7 @@
 	var ItemViewer = Backbone.View.extend({
 		el: "#item",
 
-		template: wp.template('item-viewer'),
+		template: Razor.template('item-viewer'),
 
 		initialize: function () {
 			this.listenTo(this.model, 'change', this.render);

@@ -456,8 +456,12 @@
 			}
 
 			var new_items = new ItemList(attributes);
+
+			// Exclude the feed ID, as it is part of the URL
+			var data = _.omit(attributes, 'feed_id');
+
 			new_items.fetch({
-				data: attributes,
+				data: data,
 				success: function (collection, response, options) {
 					//if (existing) {
 					//	Razor.Items.update(collection.models);

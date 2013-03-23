@@ -471,6 +471,8 @@ body.admin-bar #item-view,
 body.admin-bar #items-list-container {
 	top: 88px;
 }
+html { margin-top: 28px !important; }
+* html body { margin-top: 28px !important; }
 
 /*
 Two-Column Layout

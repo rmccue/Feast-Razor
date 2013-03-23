@@ -1,8 +1,10 @@
 <?php
 
 function razor_setup() {
-	add_action('wp_print_styles', 'razor_enqueue_styles');
-	add_action('wp_print_scripts', 'razor_enqueue_scripts');
+	if ( ! is_admin() ) {
+		add_action('wp_print_styles', 'razor_enqueue_styles');
+		add_action('wp_print_scripts', 'razor_enqueue_scripts');
+	}
 }
 add_action( 'after_setup_theme', 'razor_setup' );
 function razor_enqueue_styles() {

@@ -172,7 +172,7 @@
 
 		initialize: function () {
 			// no-op
-			this.on('show-full', this.markRead);
+			this.listenTo(this, 'show-full', this.markRead);
 		},
 
 		markRead: function () {
@@ -269,10 +269,10 @@
 				this.data.genericon = options.genericon;
 
 			this.filter = options.filter;
-			Razor.Feeds.on('select', this.renderSelected);
+			this.listenTo(Razor.Feeds, 'select', this.renderSelected);
 
 			if (this.model) {
-				this.model.on('change', this.render);
+				this.listenTo(this.model, 'change', this.render);
 			}
 		},
 
@@ -365,8 +365,8 @@
 
 			if (options.feeds) {
 				this.feeds = options.feeds;
-				options.feeds.on('add', this.addRow);
-				options.feeds.on('reset', this.reset);
+				this.listenTo(options.feeds, 'add', this.addRow);
+				this.listenTo(options.feeds, 'reset', this.reset);
 
 				this.reset();
 			}
@@ -439,8 +439,7 @@
 				feeds: Razor.Feeds
 			}));
 
-			var view = this;
-			Razor.Items.on('reset', function () { view.renderSelected(); });
+			this.listenTo(Razor.Items, 'reset', this.renderSelected);
 
 			this.footer = new Footer();
 		},
@@ -505,9 +504,8 @@
 		},
 
 		initialize: function () {
-			var view = this;
-			this.model.on('change', this.render);
-			Razor.Items.on('show-full', function () { view.renderSelected(); });
+			this.listenTo(this.model, 'change', this.render);
+			this.listenTo(Razor.Items, 'show-full', this.renderSelected);
 			//this.listenTo(this.model, 'destroy', this.remove);
 		},
 
@@ -541,11 +539,9 @@
 		el: "#items-list-container",
 
 		initialize: function () {
-			var view = this;
-
-			Razor.Items.on('add', function () { this.addItem(); });
-			Razor.Items.on('reset', function () { view.resetItems(); });
-			Razor.Items.on('all', function () { view.render(); });
+			this.listenTo(Razor.Items, 'add', this.addItem);
+			this.listenTo(Razor.Items, 'reset', this.resetItems);
+			this.listenTo(Razor.Items, 'all', this.render);
 
 			this.footer = new Footer();
 
@@ -563,10 +559,9 @@
 		},
 
 		addItem: function (item) {
-			var list = this;
 			var view = new ItemRow({model: item});
-			view.on('select', function () {
-				list.maybeScroll.apply(list, [view]);
+			this.listenTo(view, 'select', function () {
+				this.maybeScroll(view);
 			});
 			this.$('ol').append(view.render().el);
 		},
@@ -641,7 +636,7 @@
 		template: Razor.template('item-viewer'),
 
 		initialize: function () {
-			this.model.on('change', this.render);
+			this.listenTo(this.model, 'change', this.render);
 		},
 
 		render: function () {
@@ -660,7 +655,7 @@
 			this.items = new ItemListView;
 			this.viewer = null;
 
-			Razor.Items.on('show-full', function () { Razor.App.renderViewer.apply(Razor.App); });
+			this.listenTo(Razor.Items, 'show-full', this.renderViewer);
 			this.sidebar.renderSelected();
 
 			Razor.hotkeys({

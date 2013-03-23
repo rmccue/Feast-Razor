@@ -48,39 +48,11 @@ header('Content-Type: text/html; charset=utf-8');
 			<ul id="feeds-list">
 			</ul>
 		</div>
-		<div class="footer">
-
-			<ul>
-<?php
-	if ( is_user_logged_in() ) {
-?>
-				<li><a id="footer-add" href="<?php echo admin_url('post-new.php?post_type=feast-feed') ?>">Add</a></li>
-				<li><a href="<?php echo admin_url('edit.php?post_type=feast-feed') ?>">Manage</a></li>
-<?php
-	}
-?>
-				<li><span class="resize-handle">||</span></li>
-			</ul>
-		</div>
-	</div>
-	
-	<div id="switcher" class="footer">
-		<ul>
-			<li><a href="#" id="switcher-sidebar">Sidebar</a></li>
-			<li><a href="#" id="switcher-items">Items</a></li>
-		</ul>
 	</div>
 
 	<div id="items-list-container">
 		<ol id="items-list">
-			<li><a href="#">Loading items...</a></li>
 		</ol>
-		<div class="footer">
-			<ul>
-				<li><a id="items-reload" href="<?php echo get_option('baseurl') ?>">Reload</a></li>
-				<li><span class="resize-handle">||</span></li>
-			</ul>
-		</div>
 	</div>
 
 	<div id="item-view">
